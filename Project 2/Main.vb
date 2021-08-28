@@ -1,49 +1,53 @@
 ﻿Public Class frmMain
     <Serializable()>
-    Public Structure DataStruct
-        '0 through 65,535 (unsigned)
-        Dim mdHP As Short
-        Dim mdHPcap As UShort
-        Dim mdXP As ULong
-        Dim mdLVL As UShort
-        Dim mdDMG As UShort
-        Dim mdDPS As UShort
-        '0 through 4,294,967,295 (unsigned)
-        Dim mdCoins As UInteger
+    Public Structure GameState
+        Dim CookieHP As UInt32
+        Dim CookieMaxHP As UInt32
+        Dim PlayerXP As UInt32
+        Dim PlayerLVL As UInt32
+        Dim PlayerDMG As UInt32
+        Dim PlayerDPS As UInt32
+        Dim PlayerCoins As Int64
 
         Dim mdUpgradeStats(,) As String
 
         Dim mdStats(,) As String
+
+        Dim mdBossPrompted As Boolean
     End Structure
 
-    Public Data As DataStruct
+    Public State As GameState
 
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         frmUpgrades.Show()
         frmUpgrades.SetDesktopLocation(Me.Location.X + Me.Size.Width, Me.Location.Y)
 
-        Data.mdHP = 5
-        Data.mdHPcap = 5
-        Data.mdXP = 0
-        Data.mdLVL = 1
-        Data.mdDMG = 1
-        Data.mdDPS = 0
-        Data.mdCoins = 0
+        State.CookieHP = 5
+        State.CookieMaxHP = 5
+        State.PlayerXP = 0
+        State.PlayerLVL = 1
+        State.PlayerDMG = 1
+        State.PlayerDPS = 0
+        State.PlayerCoins = 0
 
-        Data.mdUpgradeStats = frmUpgrades.GetUpgrades()
-        Data.mdStats = frmUpgrades.GetStats()
+        State.mdUpgradeStats = frmUpgrades.GetUpgrades()
+        State.mdStats = frmUpgrades.GetStats()
+
+        State.mdBossPrompted = False
 
         UpdateAll()
+
+        HelpToolStripMenuItem1_Click(Nothing, Nothing)
 
         DPSTimer.Start()
     End Sub
 
     Private Sub DPSTimer_Tick(sender As Object, e As EventArgs) Handles DPSTimer.Tick
-        If Data.mdDPS > 0 Then
-            If Data.mdHP - Data.mdDMG >= 0 Then
-                Data.mdHP -= Data.mdDPS
+        If State.PlayerDPS > 0 Then
+            If State.CookieHP > State.PlayerDPS Then
+                State.CookieHP -= State.PlayerDPS
             Else
-                Data.mdHP = 0
+                State.CookieHP = 0
             End If
             UpdateHP()
         End If
@@ -58,10 +62,10 @@
 
     Private Sub imgCookie_MouseDown(sender As Object, e As EventArgs) Handles imgCookie.MouseDown
         frmUpgrades.listStats.Items.Item(1).SubItems.Item(1).Text = frmUpgrades.GetIntOnly(frmUpgrades.listStats.Items.Item(1).SubItems.Item(1).Text) + 1
-        If Data.mdHP - Data.mdDMG >= 0 Then
-            Data.mdHP -= Data.mdDMG
+        If State.CookieHP > State.PlayerDMG Then
+            State.CookieHP -= State.PlayerDMG
         Else
-            Data.mdHP = 0
+            State.CookieHP = 0
         End If
         UpdateHP()
     End Sub
@@ -70,24 +74,25 @@
         ''listUpgrades.Items = Data.Upgrades
 
         UpdateHP()
-        frmUpgrades.UpdateCoins(0)
+        frmUpgrades.UpdateDisplay()
         frmUpgrades.UpdateDPS()
         frmUpgrades.UpdateDMG()
         UpdateXP()
 
-        lblLVL.Text = "Level " & Data.mdLVL
+        lblLVL.Text = "Level " & State.PlayerLVL
     End Sub
     Public Sub UpdateHP()
-        If Data.mdHP <= 0 Then
-            Data.mdXP += Data.mdHPcap
-            Data.mdHP = Data.mdLVL ^ 2 * 5
-            Data.mdHPcap = Data.mdHP
-            frmUpgrades.UpdateCoins(Data.mdLVL * 10)
+        If State.CookieHP = 0 Then
+            State.PlayerXP += State.CookieMaxHP
+            State.CookieHP = State.PlayerLVL ^ 2 * 5
+            State.CookieMaxHP = State.CookieHP
+            frmUpgrades.AddCoins(State.PlayerLVL * 10)
+            frmUpgrades.UpdateDisplay()
             frmUpgrades.listStats.Items.Item(3).SubItems.Item(1).Text = frmUpgrades.GetIntOnly(frmUpgrades.listStats.Items.Item(3).SubItems.Item(1).Text) + 1
             UpdateXP()
         End If
 
-        Dim mdHPx = Data.mdHP / Data.mdHPcap
+        Dim mdHPx = State.CookieHP / State.CookieMaxHP
 
         If mdHPx > 0.91 Then
             imgCookie.Image = Project_2.My.Resources.cookie_0
@@ -113,24 +118,23 @@
             imgCookie.Image = Project_2.My.Resources.cookie_10
         End If
 
-        progHP.Value = (Data.mdHP / Data.mdHPcap) * 500
+        progHP.Value = (State.CookieHP / State.CookieMaxHP) * 500
     End Sub
     Private Sub UpdateXP()
-        If Data.mdXP >= Data.mdLVL ^ 2 * 50 Then
-            Data.mdLVL += 1
-            Data.mdXP = 0
-            lblLVL.Text = "Level " & Data.mdLVL
-            If Data.mdLVL Mod 5 = 0 Then
+        If State.PlayerXP >= State.PlayerLVL ^ 2 * 50 Then
+            State.PlayerLVL += 1
+            State.PlayerXP = 0
+            lblLVL.Text = "Level " & State.PlayerLVL
+            If State.PlayerLVL Mod 5 = 0 Then
                 frmBoss.Show()
                 frmBoss.SetDesktopLocation(Me.Location.X, Me.Location.Y)
-                frmBoss.pbHP = Data.mdLVL ^ 2 * 50
-                frmBoss.pbHPCap = Data.mdLVL ^ 2 * 50
+                frmBoss.BossHP = State.PlayerLVL ^ 2 * 50
+                frmBoss.BossMaxHP = State.PlayerLVL ^ 2 * 50
                 Me.Hide()
-                MessageBox.Show("A boss cookie approaches! You need to sacrifice upgrades to be able to do damage to the boss before you run out of coins!")
             End If
         End If
 
-        progXP.Value = (Data.mdXP / (Data.mdLVL ^ 2 * 50)) * 100
+        progXP.Value = (State.PlayerXP / (State.PlayerLVL ^ 2 * 50)) * 100
     End Sub
 
     Private Sub frmMain_FormClosing(sender As Object, e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
@@ -148,20 +152,20 @@
     End Sub
 
     Private Sub SaveFileDialog1_FileOk(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles SaveFileDialog1.FileOk
-        Data.mdUpgradeStats = frmUpgrades.GetUpgrades()
-        Data.mdStats = frmUpgrades.GetStats()
+        State.mdUpgradeStats = frmUpgrades.GetUpgrades()
+        State.mdStats = frmUpgrades.GetStats()
         Dim lcMyBinaryFormatter As New System.Runtime.Serialization.Formatters.Binary.BinaryFormatter()
         Dim lcMyContainer As New System.IO.MemoryStream()
-        lcMyBinaryFormatter.Serialize(lcMyContainer, Data)
+        lcMyBinaryFormatter.Serialize(lcMyContainer, State)
         My.Computer.FileSystem.WriteAllBytes(SaveFileDialog1.FileName, lcMyContainer.GetBuffer(), False)
     End Sub
     Private Sub OpenFileDialog1_FileOk(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles OpenFileDialog1.FileOk
         Dim lcMyBinaryFormatter As New System.Runtime.Serialization.Formatters.Binary.BinaryFormatter()
         Dim lcMyContainer As New System.IO.MemoryStream()
         Dim lcBytes As Byte() = My.Computer.FileSystem.ReadAllBytes(OpenFileDialog1.FileName)
-        Data = DirectCast(lcMyBinaryFormatter.Deserialize(New System.IO.MemoryStream(lcBytes)), DataStruct)
-        frmUpgrades.SetUpgrades(Data.mdUpgradeStats)
-        frmUpgrades.SetStats(Data.mdStats)
+        State = DirectCast(lcMyBinaryFormatter.Deserialize(New System.IO.MemoryStream(lcBytes)), GameState)
+        frmUpgrades.SetUpgrades(State.mdUpgradeStats)
+        frmUpgrades.SetStats(State.mdStats)
         UpdateAll()
     End Sub
     Private Sub SaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveToolStripMenuItem.Click
@@ -188,6 +192,6 @@
     End Sub
 
     Private Sub HelpToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles HelpToolStripMenuItem1.Click
-        MessageBox.Show("Click on the cookie to reduce it's health. Killing cookies increases your XP which brings you closer to leveling up, every 5 levels you will need to fight a boss cookie, which drains your Coins until you die of bankruptsy. You have to sacrifice your upgrades you've earned so far in order to make it possible to click on the boss cookie effectively. Good luck.")
+        MessageBox.Show("Click on the cookie to reduce its health. Destroying cookies increases your XP which brings you closer to leveling up, every 5 levels you will need to fight a boss cookie, which drains your Coins until you die of poverty. Be sure to save up some disposable upgrades to sacrifice for the boss fights. Good luck.")
     End Sub
 End Class

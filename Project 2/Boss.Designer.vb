@@ -25,7 +25,7 @@ Partial Class frmBoss
         Me.components = New System.ComponentModel.Container()
         Me.progHP = New System.Windows.Forms.ProgressBar()
         Me.imgCookie = New System.Windows.Forms.PictureBox()
-        Me.CoinDownTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.CoinDrainTimer = New System.Windows.Forms.Timer(Me.components)
         Me.lblBossDMG = New System.Windows.Forms.Label()
         CType(Me.imgCookie, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -45,6 +45,7 @@ Partial Class frmBoss
         '
         Me.imgCookie.BackColor = System.Drawing.Color.DarkRed
         Me.imgCookie.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.imgCookie.Enabled = False
         Me.imgCookie.Image = Global.Project_2.My.Resources.Resources.cookie_0
         Me.imgCookie.ImageLocation = ""
         Me.imgCookie.InitialImage = Nothing
@@ -55,9 +56,9 @@ Partial Class frmBoss
         Me.imgCookie.TabIndex = 7
         Me.imgCookie.TabStop = False
         '
-        'CoinDownTimer
+        'CoinDrainTimer
         '
-        Me.CoinDownTimer.Interval = 1000
+        Me.CoinDrainTimer.Interval = 1000
         '
         'lblBossDMG
         '
@@ -92,6 +93,6 @@ Partial Class frmBoss
     End Sub
     Friend WithEvents progHP As ProgressBar
     Friend WithEvents imgCookie As PictureBox
-    Friend WithEvents CoinDownTimer As Timer
+    Friend WithEvents CoinDrainTimer As Timer
     Friend WithEvents lblBossDMG As Label
 End Class

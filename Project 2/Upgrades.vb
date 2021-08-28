@@ -2,84 +2,98 @@
 
 Public Class frmUpgrades
     Private Sub listUpgrades_SelectedIndexChanged(sender As Object, e As EventArgs) Handles listUpgrades.SelectedIndexChanged
-        For Each item In listUpgrades.SelectedItems
-            lblDescription.Text = item.ToolTipText
-            btnSacrifice.Enabled = GetIntOnly(item.SubItems.Item(2).Text) > 0
-        Next
         If listUpgrades.SelectedItems.Count = 0 Then
             lblDescription.Text = "Select an upgrade for more information."
+        Else
+            Dim item = listUpgrades.SelectedItems(0)
+
+            lblDescription.Text = item.ToolTipText
         End If
-        UpdateCoins(0)
+        UpdateDisplay()
     End Sub
 
     Private Sub btnBuy_Click(sender As Object, e As EventArgs) Handles btnBuy.Click
-        For Each item In listUpgrades.SelectedItems
-            UpdateCoins(0 - GetIntOnly(item.SubItems.Item(3).Text))
-            item.SubItems.Item(3).Text = "$" & Math.Round(GetIntOnly(item.SubItems.Item(3).Text) * 1.25)
-            item.SubItems.Item(2).Text = GetIntOnly(item.SubItems.Item(2).Text) + 1
-            If item.Group.Equals(listUpgrades.Groups.Item(0)) Then
-                frmMain.Data.mdDMG += GetIntOnly(item.SubItems.Item(4).Text)
-                UpdateDMG()
-            Else
-                frmMain.Data.mdDPS += GetIntOnly(item.SubItems.Item(4).Text)
-                UpdateDPS()
-            End If
-            listStats.Items.Item(0).SubItems.Item(1).Text = GetIntOnly(listStats.Items.Item(0).SubItems.Item(1).Text) + 1
-        Next
+        Dim item = listUpgrades.SelectedItems(0)
+
+        AddCoins(0 - GetIntOnly(item.SubItems.Item(3).Text))
+        item.SubItems.Item(3).Text = "$" & Math.Round(GetIntOnly(item.SubItems.Item(3).Text) * 1.25)
+        item.SubItems.Item(2).Text = GetIntOnly(item.SubItems.Item(2).Text) + 1
+        UpdateDisplay()
+        If item.Group.Equals(listUpgrades.Groups.Item(0)) Then
+            frmMain.State.PlayerDMG += GetIntOnly(item.SubItems.Item(4).Text)
+            UpdateDMG()
+        Else
+            frmMain.State.PlayerDPS += GetIntOnly(item.SubItems.Item(4).Text)
+            UpdateDPS()
+        End If
+        listStats.Items.Item(0).SubItems.Item(1).Text = GetIntOnly(listStats.Items.Item(0).SubItems.Item(1).Text) + 1
     End Sub
 
     Private Sub btnRefund_Click(sender As Object, e As EventArgs) Handles btnRefund.Click
-        For Each item In listUpgrades.SelectedItems
-            UpdateCoins(GetIntOnly(item.SubItems.Item(3).Text) / 1.25 / 2)
-            item.SubItems.Item(3).Text = "$" & Math.Round(GetIntOnly(item.SubItems.Item(3).Text) / 1.25)
-            item.SubItems.Item(2).Text = GetIntOnly(item.SubItems.Item(2).Text) - 1
-            If item.Group.Equals(listUpgrades.Groups.Item(0)) Then
-                frmMain.Data.mdDMG -= GetIntOnly(item.SubItems.Item(4).Text)
-                UpdateDMG()
-            Else
-                frmMain.Data.mdDPS -= GetIntOnly(item.SubItems.Item(4).Text)
-                UpdateDPS()
-            End If
-        Next
+        Dim item = listUpgrades.SelectedItems(0)
+
+        AddCoins(GetIntOnly(item.SubItems.Item(3).Text) / 1.25 / 2)
+        item.SubItems.Item(3).Text = "$" & Math.Round(GetIntOnly(item.SubItems.Item(3).Text) / 1.25)
+        item.SubItems.Item(2).Text = GetIntOnly(item.SubItems.Item(2).Text) - 1
+        UpdateDisplay()
+        If item.Group.Equals(listUpgrades.Groups.Item(0)) Then
+            frmMain.State.PlayerDMG -= GetIntOnly(item.SubItems.Item(4).Text)
+            UpdateDMG()
+        Else
+            frmMain.State.PlayerDPS -= GetIntOnly(item.SubItems.Item(4).Text)
+            UpdateDPS()
+        End If
     End Sub
 
     Private Sub btnSacrifice_Click(sender As Object, e As EventArgs) Handles btnSacrifice.Click
-        For Each item In listUpgrades.SelectedItems
-            item.SubItems.Item(3).Text = "$" & Math.Round(GetIntOnly(item.SubItems.Item(3).Text) / 1.25)
-            item.SubItems.Item(2).Text = GetIntOnly(item.SubItems.Item(2).Text) - 1
-            If item.Group.Equals(listUpgrades.Groups.Item(0)) Then
-                frmMain.Data.mdDMG -= GetIntOnly(item.SubItems.Item(4).Text)
-                UpdateDMG()
-            Else
-                frmMain.Data.mdDPS -= GetIntOnly(item.SubItems.Item(4).Text)
-                UpdateDPS()
-            End If
-            frmBoss.pbDMG += Math.Round(GetIntOnly(item.SubItems.Item(3).Text) * 1.09, 2)
-            frmBoss.lblBossDMG.Text = frmBoss.pbDMG & " Boss DMG"
-        Next
+        Dim item = listUpgrades.SelectedItems(0)
+
+        item.SubItems.Item(3).Text = "$" & Math.Round(GetIntOnly(item.SubItems.Item(3).Text) / 1.25)
+        item.SubItems.Item(2).Text = GetIntOnly(item.SubItems.Item(2).Text) - 1
+        If item.Group.Equals(listUpgrades.Groups.Item(0)) Then
+            frmMain.State.PlayerDMG -= GetIntOnly(item.SubItems.Item(4).Text)
+            UpdateDMG()
+        Else
+            frmMain.State.PlayerDPS -= GetIntOnly(item.SubItems.Item(4).Text)
+            UpdateDPS()
+        End If
+        frmBoss.PlayerBossDMG += Math.Round(GetIntOnly(item.SubItems.Item(3).Text) * 1.09, 0)
+        frmBoss.lblBossDMG.Text = frmBoss.PlayerBossDMG & " Boss DMG"
+
+        btnSacrifice.Enabled = GetIntOnly(item.SubItems.Item(2).Text) > 0
+        btnBegin.Enabled = True
     End Sub
 
-    Public Function UpdateCoins(amnt)
-        frmMain.Data.mdCoins += amnt
-        lblCoins.Text = "$" & frmMain.Data.mdCoins
+    Private Sub btnBegin_Click(sender As Object, e As EventArgs) Handles btnBegin.Click
+        frmBoss.CoinDrainTimer.Start()
+        frmBoss.imgCookie.Enabled = True
+        btnBegin.Visible = False
+    End Sub
+
+    Public Function AddCoins(amnt)
+        frmMain.State.PlayerCoins += amnt
+        lblCoins.Text = "$" & frmMain.State.PlayerCoins
         If amnt > 0 Then
             listStats.Items.Item(2).SubItems.Item(1).Text =
                 "$" & GetIntOnly(listStats.Items.Item(2).SubItems.Item(1).Text) + amnt
         End If
-        For Each item In listUpgrades.SelectedItems
-            btnBuy.Text = "Buy " & item.SubItems.Item(3).Text
-            btnBuy.Enabled = GetIntOnly(item.SubItems.Item(3).Text) <= frmMain.Data.mdCoins
-            btnRefund.Text = "Refund $" & GetIntOnly(item.SubItems.Item(3).Text) / 1.25 / 2
-            btnRefund.Enabled = item.SubItems.Item(2).Text > 0
-        Next
+    End Function
+
+    Public Function UpdateDisplay()
         If listUpgrades.SelectedItems.Count = 0 Then
             btnBuy.Text = "Buy"
             btnBuy.Enabled = False
             btnRefund.Text = "Refund"
             btnRefund.Enabled = False
+            btnSacrifice.Enabled = False
+        Else
+            Dim item = listUpgrades.SelectedItems(0)
+            btnBuy.Text = "Buy " & item.SubItems.Item(3).Text
+            btnBuy.Enabled = GetIntOnly(item.SubItems.Item(3).Text) <= frmMain.State.PlayerCoins
+            btnRefund.Text = "Refund $" & GetIntOnly(item.SubItems.Item(3).Text) / 1.25 / 2
+            btnRefund.Enabled = item.SubItems.Item(2).Text > 0
+            btnSacrifice.Enabled = GetIntOnly(item.SubItems.Item(2).Text) > 0
         End If
-
-        Return frmMain.Data.mdCoins
     End Function
 
     Public Function GetUpgrades()
@@ -126,63 +140,65 @@ Public Class frmUpgrades
     End Function
 
     Public Sub UpdateDPS()
-        lblDPS.Text = frmMain.Data.mdDPS & " DPS"
-        listStats.Items.Item(5).SubItems.Item(1).Text = frmMain.Data.mdDPS
+        lblDPS.Text = frmMain.State.PlayerDPS & " DPS"
+        listStats.Items.Item(5).SubItems.Item(1).Text = frmMain.State.PlayerDPS
     End Sub
 
     Public Sub UpdateDMG()
-        lblDMG.Text = frmMain.Data.mdDMG & " DMG"
-        listStats.Items.Item(4).SubItems.Item(1).Text = frmMain.Data.mdDMG
+        lblDMG.Text = frmMain.State.PlayerDMG & " DMG"
+        listStats.Items.Item(4).SubItems.Item(1).Text = frmMain.State.PlayerDMG
     End Sub
 
     Private Sub btnAddCoins_Click(sender As Object, e As EventArgs) Handles btnAddCoins.Click
-        UpdateCoins(numAddCoins.Value)
+        AddCoins(numAddCoins.Value)
+        UpdateDisplay()
     End Sub
 
     Private Sub btnTakeCoins_Click(sender As Object, e As EventArgs) Handles btnTakeCoins.Click
-        UpdateCoins(0 - numAddCoins.Value)
+        AddCoins(0 - numAddCoins.Value)
+        UpdateDisplay()
     End Sub
 
     Private Sub btnAddDPS_Click(sender As Object, e As EventArgs) Handles btnAddDPS.Click
-        frmMain.Data.mdDPS += numAddDPS.Value
+        frmMain.State.PlayerDPS += numAddDPS.Value
         UpdateDPS()
     End Sub
 
     Private Sub btnTakeDPS_Click(sender As Object, e As EventArgs) Handles btnTakeDPS.Click
-        frmMain.Data.mdDPS -= numAddDPS.Value
+        frmMain.State.PlayerDPS -= numAddDPS.Value
         UpdateDPS()
     End Sub
 
     Private Sub btnAddDMG_Click(sender As Object, e As EventArgs) Handles btnAddDMG.Click
-        frmMain.Data.mdDMG += numAddDMG.Value
+        frmMain.State.PlayerDMG += numAddDMG.Value
         UpdateDMG()
     End Sub
 
     Private Sub btnTakeDMG_Click(sender As Object, e As EventArgs) Handles btnTakeDMG.Click
-        frmMain.Data.mdDMG -= numAddDMG.Value
+        frmMain.State.PlayerDMG -= numAddDMG.Value
         UpdateDMG()
     End Sub
 
     Private Sub btnInstakill_Click(sender As Object, e As EventArgs) Handles btnInstakill.Click
-        frmMain.Data.mdHP = 0
+        frmMain.State.CookieHP = 0
         frmMain.UpdateHP()
     End Sub
 
     Private Sub btnHealCookie_Click(sender As Object, e As EventArgs) Handles btnHealCookie.Click
-        frmMain.Data.mdHP = frmMain.Data.mdHPcap
+        frmMain.State.CookieHP = frmMain.State.CookieMaxHP
         frmMain.UpdateHP()
     End Sub
 
     Private Sub btnLvlDown_Click(sender As Object, e As EventArgs) Handles btnLvlDown.Click
-        frmMain.Data.mdLVL = Math.Max(frmMain.Data.mdLVL - 1, 1)
-        frmMain.Data.mdXP = 0
-        frmMain.lblLVL.Text = "Level " & frmMain.Data.mdLVL
+        frmMain.State.PlayerLVL = Math.Max(frmMain.State.PlayerLVL - 1, 1)
+        frmMain.State.PlayerXP = 0
+        frmMain.lblLVL.Text = "Level " & frmMain.State.PlayerLVL
     End Sub
 
     Private Sub btnLvlUp_Click(sender As Object, e As EventArgs) Handles btnLvlUp.Click
-        frmMain.Data.mdLVL += 1
-        frmMain.Data.mdXP = 0
-        frmMain.lblLVL.Text = "Level " & frmMain.Data.mdLVL
+        frmMain.State.PlayerLVL += 1
+        frmMain.State.PlayerXP = 0
+        frmMain.lblLVL.Text = "Level " & frmMain.State.PlayerLVL
     End Sub
 
     Public Shared Function GetIntOnly(ByVal value As String) As Integer
