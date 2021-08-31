@@ -1,66 +1,187 @@
 ﻿Imports System.Text.RegularExpressions
 
 Public Class frmUpgrades
-    Private Sub listUpgrades_SelectedIndexChanged(sender As Object, e As EventArgs) Handles listUpgrades.SelectedIndexChanged
-        If listUpgrades.SelectedItems.Count = 0 Then
-            lblDescription.Text = "Select an upgrade for more information."
-        Else
-            Dim item = listUpgrades.SelectedItems(0)
+    Public Class Stat
+        Public Name As String
+        Public Value As UInt32
+        Public Format As String
+        Public Overrides Function ToString() As String
+            If Format = "$" Then
+                Return FormatMoney(Value)
+            End If
+            Return String.Format(Format, Value)
+        End Function
+    End Class
 
-            lblDescription.Text = item.ToolTipText
-        End If
+    Public Enum StatsIndex As Byte
+        upgradepurchases
+        cookieclicks
+        cashgen
+        cashspent
+        cookiekills
+        bosskills
+        dmg
+        dps
+        timeplayed
+    End Enum
+
+    Public Stats = New List(Of Stat) From {
+        New Stat With {.Name = "Upgrades Purchased", .Format = "{0}"},
+        New Stat With {.Name = "Cookies Clicked", .Format = "{0}"},
+        New Stat With {.Name = "Cash Earned", .Format = "$"},
+        New Stat With {.Name = "Cash Spent", .Format = "$"},
+        New Stat With {.Name = "Defeated Cookies", .Format = "{0}"},
+        New Stat With {.Name = "Defeated Boss Cookies", .Format = "{0}"},
+        New Stat With {.Name = "Cursor Damage (DMG)", .Format = "{0}/click"},
+        New Stat With {.Name = "Passive Damage (DPS)", .Format = "{0}/s"},
+        New Stat With {.Name = "Time Played", .Format = "{0} seconds"}
+    }
+
+    Public Enum UpgradeTypes As Byte
+        Active
+        Passive
+    End Enum
+
+    Public Class Upgrade
+        Public Id As String
+        Public Name As String
+        Public Description As String
+        Public Type As UpgradeTypes
+        Public Power As Byte
+        Public Quantity As UInt16
+        Public BasePrice As UInt16
+        Public Function Price() As UInt32
+            Return Math.Round(BasePrice * (1.25 ^ Quantity))
+        End Function
+        Public Overrides Function ToString() As String
+            Return "+" & Power & " " & If(Type = UpgradeTypes.Active, "DPS", "DMG")
+        End Function
+    End Class
+
+    Public Upgrades = New List(Of Upgrade) From {
+        New Upgrade With {.Id = "bigcursor",
+                          .Name = "Bigger Cursor",
+                          .Description = "Increases the size of the cursor, making each click more effective.",
+                          .Type = UpgradeTypes.Active,
+                          .Power = 1,
+                          .BasePrice = 20},
+        New Upgrade With {.Id = "sharpteeth",
+                          .Name = "Sharper Teeth",
+                          .Description = "Bite through cookies like they're nothing.",
+                          .Type = UpgradeTypes.Active,
+                          .Power = 10,
+                          .BasePrice = 180},
+        New Upgrade With {.Id = "lipo",
+                          .Name = "Liposuction",
+                          .Description = "Eat even more cookies without the guilt.",
+                          .Type = UpgradeTypes.Active,
+                          .Power = 25,
+                          .BasePrice = 300},
+        New Upgrade With {.Id = "unhinged",
+                          .Name = "Unhinged Jaw",
+                          .Description = "Fit even more cookies in your mouth at a time, drastically improving efficiency.",
+                          .Type = UpgradeTypes.Active,
+                          .Power = 100,
+                          .BasePrice = 2500},
+        New Upgrade With {.Id = "autoclick",
+                          .Name = "Auto Clickers",
+                          .Description = "Sit back and watch these mice click for you precicely once every second.",
+                          .Type = UpgradeTypes.Passive,
+                          .Power = 1,
+                          .BasePrice = 100},
+        New Upgrade With {.Id = "bakery",
+                          .Name = "Cookie Bakers",
+                          .Description = "Bakers join the fight against the monsters they've created. (Spawn kill bonus included)",
+                          .Type = UpgradeTypes.Passive,
+                          .Power = 5,
+                          .BasePrice = 500},
+        New Upgrade With {.Id = "factory",
+                          .Name = "Cookie Factory",
+                          .Description = "Factory workers have more hours and less pay than bakers, making them a more efficient option with a greater upfront cost.",
+                          .Type = UpgradeTypes.Passive,
+                          .Power = 50,
+                          .BasePrice = 3500},
+        New Upgrade With {.Id = "nuke",
+                          .Name = "Cookie Nuke",
+                          .Description = "Nuclear weapons and their fallout will consistently make it harder for cookies to survive.",
+                          .Type = UpgradeTypes.Passive,
+                          .Power = 100,
+                          .BasePrice = 8000}
+    }
+
+    Private Sub frmUpgrades_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        listUpgrades.Items.Clear()
+        Dim i = 0
+        For Each upgrade As Upgrade In Upgrades
+            upgrade.Quantity = frmMain.State.Upgrades(i)
+            listUpgrades.Items.Add(New ListViewItem With {.ImageIndex = i,
+                                                          .Group = listUpgrades.Groups(upgrade.Type)})
+            listUpgrades.Items(i).SubItems.Add(New ListViewItem.ListViewSubItem With {.Text = upgrade.Name})
+            listUpgrades.Items(i).SubItems.Add(New ListViewItem.ListViewSubItem With {.Text = upgrade.Quantity})
+            listUpgrades.Items(i).SubItems.Add(New ListViewItem.ListViewSubItem With {.Text = FormatMoney(upgrade.Price())})
+            listUpgrades.Items(i).SubItems.Add(New ListViewItem.ListViewSubItem With {.Text = upgrade.ToString()})
+            i += 1
+        Next
+
+        listStats.Items.Clear()
+        i = 0
+        For Each stat As Stat In Stats
+            stat.Value = frmMain.State.Stats(i)
+            listStats.Items.Add(New ListViewItem With {.Text = stat.Name})
+            listStats.Items(i).SubItems.Add(New ListViewItem.ListViewSubItem With {.Text = stat.ToString()})
+            i += 1
+        Next
+    End Sub
+
+    Private Sub listUpgrades_SelectedIndexChanged(sender As Object, e As EventArgs) Handles listUpgrades.SelectedIndexChanged
         UpdateDisplay()
     End Sub
 
     Private Sub btnBuy_Click(sender As Object, e As EventArgs) Handles btnBuy.Click
-        Dim item = listUpgrades.SelectedItems(0)
+        Dim upgrade = Upgrades(listUpgrades.SelectedItems(0).Index)
 
-        AddCoins(0 - GetIntOnly(item.SubItems.Item(3).Text))
-        item.SubItems.Item(3).Text = "$" & Math.Round(GetIntOnly(item.SubItems.Item(3).Text) * 1.25)
-        item.SubItems.Item(2).Text = GetIntOnly(item.SubItems.Item(2).Text) + 1
-        UpdateDisplay()
-        If item.Group.Equals(listUpgrades.Groups.Item(0)) Then
-            frmMain.State.PlayerDMG += GetIntOnly(item.SubItems.Item(4).Text)
-            UpdateDMG()
+        frmMain.State.PlayerCoins -= upgrade.Price()
+        frmMain.State.Stats(StatsIndex.cashspent) += upgrade.Price()
+        frmMain.State.Upgrades(listUpgrades.SelectedItems(0).Index) += 1
+
+        If upgrade.Type = UpgradeTypes.Active Then
+            frmMain.State.PlayerDMG += upgrade.Power
         Else
-            frmMain.State.PlayerDPS += GetIntOnly(item.SubItems.Item(4).Text)
-            UpdateDPS()
+            frmMain.State.PlayerDPS += upgrade.Power
         End If
-        listStats.Items.Item(0).SubItems.Item(1).Text = GetIntOnly(listStats.Items.Item(0).SubItems.Item(1).Text) + 1
+        frmMain.State.Stats(StatsIndex.upgradepurchases) += 1
+        UpdateDisplay()
     End Sub
 
     Private Sub btnRefund_Click(sender As Object, e As EventArgs) Handles btnRefund.Click
-        Dim item = listUpgrades.SelectedItems(0)
+        Dim upgrade = Upgrades(listUpgrades.SelectedItems(0).Index)
 
-        AddCoins(GetIntOnly(item.SubItems.Item(3).Text) / 1.25 / 2)
-        item.SubItems.Item(3).Text = "$" & Math.Round(GetIntOnly(item.SubItems.Item(3).Text) / 1.25)
-        item.SubItems.Item(2).Text = GetIntOnly(item.SubItems.Item(2).Text) - 1
-        UpdateDisplay()
-        If item.Group.Equals(listUpgrades.Groups.Item(0)) Then
-            frmMain.State.PlayerDMG -= GetIntOnly(item.SubItems.Item(4).Text)
-            UpdateDMG()
+        upgrade.Quantity -= 1
+        frmMain.State.Upgrades(listUpgrades.SelectedItems(0).Index) -= 1
+        frmMain.State.PlayerCoins += upgrade.Price() / 2
+        If Upgrade.Type = UpgradeTypes.Active Then
+            frmMain.State.PlayerDMG -= upgrade.Power
         Else
-            frmMain.State.PlayerDPS -= GetIntOnly(item.SubItems.Item(4).Text)
-            UpdateDPS()
+            frmMain.State.PlayerDPS -= upgrade.Power
         End If
+        UpdateDisplay()
     End Sub
 
     Private Sub btnSacrifice_Click(sender As Object, e As EventArgs) Handles btnSacrifice.Click
-        Dim item = listUpgrades.SelectedItems(0)
+        Dim upgrade = Upgrades(listUpgrades.SelectedItems(0).Index)
 
-        item.SubItems.Item(3).Text = "$" & Math.Round(GetIntOnly(item.SubItems.Item(3).Text) / 1.25)
-        item.SubItems.Item(2).Text = GetIntOnly(item.SubItems.Item(2).Text) - 1
-        If item.Group.Equals(listUpgrades.Groups.Item(0)) Then
-            frmMain.State.PlayerDMG -= GetIntOnly(item.SubItems.Item(4).Text)
-            UpdateDMG()
+        upgrade.Quantity -= 1
+        frmMain.State.Upgrades(listUpgrades.SelectedItems(0).Index) -= 1
+        If upgrade.Type = UpgradeTypes.Active Then
+            frmMain.State.PlayerDMG -= upgrade.Power
         Else
-            frmMain.State.PlayerDPS -= GetIntOnly(item.SubItems.Item(4).Text)
-            UpdateDPS()
+            frmMain.State.PlayerDPS -= upgrade.Power
         End If
-        frmBoss.PlayerBossDMG += Math.Round(GetIntOnly(item.SubItems.Item(3).Text) * 1.09, 0)
+
+        frmBoss.PlayerBossDMG += Math.Round(upgrade.Price() * 1.09, 0)
         frmBoss.lblBossDMG.Text = frmBoss.PlayerBossDMG & " Boss DMG"
 
-        btnSacrifice.Enabled = GetIntOnly(item.SubItems.Item(2).Text) > 0
+        UpdateDisplay()
         btnBegin.Enabled = True
     End Sub
 
@@ -70,17 +191,32 @@ Public Class frmUpgrades
         btnBegin.Visible = False
     End Sub
 
-    Public Function AddCoins(amnt)
-        frmMain.State.PlayerCoins += amnt
-        lblCoins.Text = "$" & frmMain.State.PlayerCoins
-        If amnt > 0 Then
-            listStats.Items.Item(2).SubItems.Item(1).Text =
-                "$" & GetIntOnly(listStats.Items.Item(2).SubItems.Item(1).Text) + amnt
-        End If
-    End Function
+    Public Sub UpdateDisplay()
+        ' Coins, DMG and DPS labels
+        lblDMG.Text = frmMain.State.PlayerDMG & " DMG"
+        frmMain.State.Stats(StatsIndex.dmg) = frmMain.State.PlayerDMG
+        lblDPS.Text = frmMain.State.PlayerDPS & " DPS"
+        frmMain.State.Stats(StatsIndex.dps) = frmMain.State.PlayerDPS
+        lblCoins.Text = FormatMoney(frmMain.State.PlayerCoins)
 
-    Public Function UpdateDisplay()
+        ' Upgrade quantities and prices
+        For Each item As ListViewItem In listUpgrades.Items
+            Dim upgrade = Upgrades(item.Index)
+            upgrade.Quantity = frmMain.State.Upgrades(item.Index)
+            item.SubItems(2).Text = upgrade.Quantity
+            item.SubItems(3).Text = FormatMoney(upgrade.Price())
+        Next
+
+        ' Stats
+        For Each item As ListViewItem In listStats.Items
+            Dim stat = Stats(item.Index)
+            stat.Value = frmMain.State.Stats(item.Index)
+            item.SubItems(1).Text = stat.ToString()
+        Next
+
+        ' Upgrade buttons and description label
         If listUpgrades.SelectedItems.Count = 0 Then
+            lblDescription.Text = "Select an upgrade for more information."
             btnBuy.Text = "Buy"
             btnBuy.Enabled = False
             btnRefund.Text = "Refund"
@@ -88,95 +224,46 @@ Public Class frmUpgrades
             btnSacrifice.Enabled = False
         Else
             Dim item = listUpgrades.SelectedItems(0)
-            btnBuy.Text = "Buy " & item.SubItems.Item(3).Text
-            btnBuy.Enabled = GetIntOnly(item.SubItems.Item(3).Text) <= frmMain.State.PlayerCoins
-            btnRefund.Text = "Refund $" & GetIntOnly(item.SubItems.Item(3).Text) / 1.25 / 2
-            btnRefund.Enabled = item.SubItems.Item(2).Text > 0
-            btnSacrifice.Enabled = GetIntOnly(item.SubItems.Item(2).Text) > 0
+            Dim upgrade = Upgrades(item.Index)
+            lblDescription.Text = upgrade.Description
+            btnBuy.Text = "Buy " & FormatMoney(upgrade.Price())
+            btnBuy.Enabled = upgrade.Price() <= frmMain.State.PlayerCoins
+            btnRefund.Text = "Refund " & FormatMoney(Math.Round(upgrade.Price() / 1.25 / 2))
+            btnRefund.Enabled = upgrade.Quantity > 0
+            btnSacrifice.Enabled = upgrade.Quantity > 0
         End If
-    End Function
-
-    Public Function GetUpgrades()
-        Dim lcupgradei(listUpgrades.Items.Count, 1) As String
-        Dim i As Byte
-        i = 0
-        For Each item In listUpgrades.Items
-            lcupgradei(i, 0) = item.SubItems.Item(2).Text
-            lcupgradei(i, 1) = item.SubItems.Item(3).Text
-            i += 1
-        Next
-        Return lcupgradei
-    End Function
-    Public Function SetUpgrades(lcupgradei(,) As String)
-        Dim i As Byte
-        i = 0
-        For Each item In listUpgrades.Items
-            item.SubItems.Item(2).Text = lcupgradei(i, 0)
-            item.SubItems.Item(3).Text = lcupgradei(i, 1)
-            i += 1
-        Next
-        Return lcupgradei
-    End Function
-    Public Function GetStats()
-        Dim lcstati(listStats.Items.Count, 1) As String
-        Dim i As Byte
-        i = 0
-        For Each item In listStats.Items
-            lcstati(i, 0) = item.SubItems.Item(0).Text
-            lcstati(i, 1) = item.SubItems.Item(1).Text
-            i += 1
-        Next
-        Return lcstati
-    End Function
-    Public Function SetStats(lcstati(,) As String)
-        Dim i As Byte
-        i = 0
-        For Each item In listStats.Items
-            item.SubItems.Item(0).Text = lcstati(i, 0)
-            item.SubItems.Item(1).Text = lcstati(i, 1)
-            i += 1
-        Next
-        Return lcstati
-    End Function
-
-    Public Sub UpdateDPS()
-        lblDPS.Text = frmMain.State.PlayerDPS & " DPS"
-        listStats.Items.Item(5).SubItems.Item(1).Text = frmMain.State.PlayerDPS
-    End Sub
-
-    Public Sub UpdateDMG()
-        lblDMG.Text = frmMain.State.PlayerDMG & " DMG"
-        listStats.Items.Item(4).SubItems.Item(1).Text = frmMain.State.PlayerDMG
     End Sub
 
     Private Sub btnAddCoins_Click(sender As Object, e As EventArgs) Handles btnAddCoins.Click
-        AddCoins(numAddCoins.Value)
+        frmMain.State.PlayerCoins += numAddCoins.Value
+        frmMain.State.Stats(StatsIndex.cashgen) += numAddCoins.Value
         UpdateDisplay()
     End Sub
 
     Private Sub btnTakeCoins_Click(sender As Object, e As EventArgs) Handles btnTakeCoins.Click
-        AddCoins(0 - numAddCoins.Value)
+        frmMain.State.PlayerCoins -= numAddCoins.Value
+        frmMain.State.Stats(StatsIndex.cashspent) += numAddCoins.Value
         UpdateDisplay()
     End Sub
 
     Private Sub btnAddDPS_Click(sender As Object, e As EventArgs) Handles btnAddDPS.Click
         frmMain.State.PlayerDPS += numAddDPS.Value
-        UpdateDPS()
+        UpdateDisplay()
     End Sub
 
     Private Sub btnTakeDPS_Click(sender As Object, e As EventArgs) Handles btnTakeDPS.Click
         frmMain.State.PlayerDPS -= numAddDPS.Value
-        UpdateDPS()
+        UpdateDisplay()
     End Sub
 
     Private Sub btnAddDMG_Click(sender As Object, e As EventArgs) Handles btnAddDMG.Click
         frmMain.State.PlayerDMG += numAddDMG.Value
-        UpdateDMG()
+        UpdateDisplay()
     End Sub
 
     Private Sub btnTakeDMG_Click(sender As Object, e As EventArgs) Handles btnTakeDMG.Click
         frmMain.State.PlayerDMG -= numAddDMG.Value
-        UpdateDMG()
+        UpdateDisplay()
     End Sub
 
     Private Sub btnInstakill_Click(sender As Object, e As EventArgs) Handles btnInstakill.Click
@@ -201,7 +288,7 @@ Public Class frmUpgrades
         frmMain.lblLVL.Text = "Level " & frmMain.State.PlayerLVL
     End Sub
 
-    Public Shared Function GetIntOnly(ByVal value As String) As Integer
+    Public Shared Function GetIntOnly(ByVal value As String) As UInt32
         Dim lcReturnVal As String = "0"
         Dim lcCollection As MatchCollection = Regex.Matches(value, "\d+")
         For Each m As Match In lcCollection
@@ -210,9 +297,21 @@ Public Class frmUpgrades
         Return Convert.ToInt32(lcReturnVal)
     End Function
 
+    Public Shared Function FormatMoney(money As Int32) As String
+        Dim fmoney As String
+        If money >= 1_000_000_000 Then
+            fmoney = (money / 1_000_000_000).ToString("N1") & "Bi"
+        ElseIf money >= 1_000_000 Then
+            fmoney = (money / 1_000_000).ToString("N1") & "Mi"
+        Else
+            fmoney = money.ToString("N0")
+        End If
+        Return "$" & fmoney
+    End Function
+
     Private Sub frmUpgrades_FormClosing(sender As Object, e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
         e.Cancel = True
         frmMain.btnHSUpgrades.Text = ">>"
-        Me.Hide()
+        Hide()
     End Sub
 End Class

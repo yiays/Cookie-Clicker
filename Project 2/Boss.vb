@@ -15,15 +15,15 @@
 
         PlayerBossDMG = 0
 
-        If Not frmMain.State.mdBossPrompted Then
+        If Not frmMain.State.BossPrompted Then
             MessageBox.Show("A boss cookie appears! Sacrifice upgrades to build up strength and press 'Begin Fight' to challenge it!")
-            frmMain.State.mdBossPrompted = True
+            frmMain.State.BossPrompted = True
         End If
     End Sub
 
     Private Sub CoinDown_Tick(sender As Object, e As EventArgs) Handles CoinDrainTimer.Tick
         If frmMain.State.PlayerCoins > frmMain.State.PlayerLVL ^ 2 Then
-            frmUpgrades.AddCoins(0 - frmMain.State.PlayerLVL ^ 2)
+            frmMain.State.PlayerCoins -= frmMain.State.PlayerLVL ^ 2
             frmUpgrades.UpdateDisplay()
         Else
             frmMain.EndGame()
@@ -45,17 +45,18 @@
         progHP.Value = Math.Max((BossHP / BossMaxHP) * 100, 0)
         If BossHP = 0 Then
             Me.CoinDrainTimer.Stop()
-            MessageBox.Show("Boss defeated!" & vbNewLine & "You get a $" & BossMaxHP & " bonus.")
-            frmUpgrades.AddCoins(BossMaxHP)
-            frmUpgrades.UpdateDisplay()
-            frmUpgrades.listStats.Items.Item(3).SubItems.Item(1).Text = frmUpgrades.GetIntOnly(frmUpgrades.listStats.Items.Item(3).SubItems.Item(1).Text) + 1
+            MessageBox.Show("Boss defeated!" & vbNewLine & "You get a $" & frmUpgrades.FormatMoney(BossMaxHP) & " bonus.")
+            frmMain.State.PlayerCoins += BossMaxHP
+            frmMain.State.Stats(frmUpgrades.StatsIndex.cashgen) += BossMaxHP
             frmMain.Show()
+            frmMain.State.Stats(frmUpgrades.StatsIndex.bosskills) += 1
             frmMain.DPSTimer.Start()
             frmUpgrades.TabControl.TabPages(1).Enabled = True
             frmUpgrades.btnBuy.Visible = True
             frmUpgrades.btnRefund.Visible = True
             frmUpgrades.btnSacrifice.Visible = False
             frmUpgrades.btnBegin.Visible = False
+            frmUpgrades.UpdateDisplay()
             Me.Dispose()
         End If
     End Sub

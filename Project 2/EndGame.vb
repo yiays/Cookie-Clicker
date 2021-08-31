@@ -1,11 +1,11 @@
 ﻿Public Class frmEndGame
     Public Sub Init()
-        Dim Stats = frmUpgrades.GetStats()
-        Dim i As Byte
-        i = 0
-        For Each item In listEndGameStats.Items
-            item.SubItems.Item(0).Text = Stats(i, 0)
-            item.SubItems.Item(1).Text = Stats(i, 1)
+        listEndGameStats.Items.Clear()
+        Dim i = 0
+        For Each stat As frmUpgrades.Stat In frmUpgrades.Stats
+            stat.Value = frmMain.State.Stats(i)
+            listEndGameStats.Items.Add(New ListViewItem With {.Text = stat.Name})
+            listEndGameStats.Items(i).SubItems.Add(New ListViewItem.ListViewSubItem With {.Text = stat.ToString()})
             i += 1
         Next
     End Sub

@@ -50,6 +50,7 @@ Partial Class frmEndGame
         '
         Me.listEndGameStats.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader5, Me.ColumnHeader6})
         Me.listEndGameStats.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        Me.listEndGameStats.HideSelection = False
         Me.listEndGameStats.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7})
         Me.listEndGameStats.Location = New System.Drawing.Point(4, 30)
         Me.listEndGameStats.MultiSelect = False
@@ -62,7 +63,7 @@ Partial Class frmEndGame
         'ColumnHeader5
         '
         Me.ColumnHeader5.Text = "Statistic"
-        Me.ColumnHeader5.Width = 150
+        Me.ColumnHeader5.Width = 145
         '
         'ColumnHeader6
         '

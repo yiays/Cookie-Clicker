@@ -41,6 +41,8 @@ Partial Class frmMain
         Me.progXP = New System.Windows.Forms.ProgressBar()
         Me.btnHSUpgrades = New System.Windows.Forms.Button()
         Me.imgCookie = New System.Windows.Forms.PictureBox()
+        Me.menuAutoSaveToggle = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GitHubToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.imgCookie, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -67,58 +69,58 @@ Partial Class frmMain
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(340, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(340, 25)
         Me.MenuStrip1.TabIndex = 9
         Me.MenuStrip1.Text = "MenuStrip1"
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveToolStripMenuItem, Me.LoadToolStripMenuItem, Me.ResetToolStripMenuItem, Me.ToolStripSeparator2, Me.ExitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveToolStripMenuItem, Me.menuAutoSaveToggle, Me.LoadToolStripMenuItem, Me.ResetToolStripMenuItem, Me.ToolStripSeparator2, Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(39, 21)
         Me.FileToolStripMenuItem.Text = "File"
         '
         'SaveToolStripMenuItem
         '
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(102, 22)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SaveToolStripMenuItem.Text = "Save"
         '
         'LoadToolStripMenuItem
         '
         Me.LoadToolStripMenuItem.Name = "LoadToolStripMenuItem"
-        Me.LoadToolStripMenuItem.Size = New System.Drawing.Size(102, 22)
+        Me.LoadToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.LoadToolStripMenuItem.Text = "Load"
         '
         'ResetToolStripMenuItem
         '
         Me.ResetToolStripMenuItem.Name = "ResetToolStripMenuItem"
-        Me.ResetToolStripMenuItem.Size = New System.Drawing.Size(102, 22)
+        Me.ResetToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ResetToolStripMenuItem.Text = "Reset"
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(99, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(177, 6)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(102, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'HelpToolStripMenuItem
         '
-        Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HelpToolStripMenuItem1})
+        Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.HelpToolStripMenuItem1, Me.GitHubToolStripMenuItem})
         Me.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem"
-        Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(47, 21)
         Me.HelpToolStripMenuItem.Text = "Help"
         '
         'HelpToolStripMenuItem1
         '
         Me.HelpToolStripMenuItem1.Name = "HelpToolStripMenuItem1"
         Me.HelpToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
-        Me.HelpToolStripMenuItem1.Text = "Help"
+        Me.HelpToolStripMenuItem1.Text = "How to Play"
         '
         'lblTitle
         '
@@ -184,6 +186,19 @@ Partial Class frmMain
         Me.imgCookie.TabIndex = 2
         Me.imgCookie.TabStop = False
         '
+        'menuAutoSaveToggle
+        '
+        Me.menuAutoSaveToggle.CheckOnClick = True
+        Me.menuAutoSaveToggle.Name = "menuAutoSaveToggle"
+        Me.menuAutoSaveToggle.Size = New System.Drawing.Size(180, 22)
+        Me.menuAutoSaveToggle.Text = "Enable Autosave"
+        '
+        'GitHubToolStripMenuItem
+        '
+        Me.GitHubToolStripMenuItem.Name = "GitHubToolStripMenuItem"
+        Me.GitHubToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.GitHubToolStripMenuItem.Text = "GitHub"
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -226,4 +241,6 @@ Partial Class frmMain
     Friend WithEvents btnHSUpgrades As Button
     Friend WithEvents HelpToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents HelpToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents menuAutoSaveToggle As ToolStripMenuItem
+    Friend WithEvents GitHubToolStripMenuItem As ToolStripMenuItem
 End Class
