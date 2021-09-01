@@ -97,7 +97,7 @@ Public Class frmUpgrades
                           .BasePrice = 500},
         New Upgrade With {.Id = "factory",
                           .Name = "Cookie Factory",
-                          .Description = "Factory workers have more hours and less pay than bakers, making them a more efficient option with a greater upfront cost.",
+                          .Description = "Factory workers have more hours and less pay than bakers, making them a more efficient option with a greater cost.",
                           .Type = UpgradeTypes.Passive,
                           .Power = 50,
                           .BasePrice = 3500},
@@ -202,17 +202,27 @@ Public Class frmUpgrades
         ' Upgrade quantities and prices
         For Each item As ListViewItem In listUpgrades.Items
             Dim upgrade = Upgrades(item.Index)
-            upgrade.Quantity = frmMain.State.Upgrades(item.Index)
-            item.SubItems(2).Text = upgrade.Quantity
-            item.SubItems(3).Text = FormatMoney(upgrade.Price())
+            If Not frmMain.State.Upgrades(item.Index) = upgrade.Quantity Then
+                upgrade.Quantity = frmMain.State.Upgrades(item.Index)
+                item.SubItems(2).Text = upgrade.Quantity
+                item.SubItems(3).Text = FormatMoney(upgrade.Price())
+            End If
         Next
 
-        ' Stats
+        ' Stats and autosave information
         For Each item As ListViewItem In listStats.Items
             Dim stat = Stats(item.Index)
-            stat.Value = frmMain.State.Stats(item.Index)
-            item.SubItems(1).Text = stat.ToString()
+            If Not frmMain.State.Stats(item.Index) = stat.Value Then
+                stat.Value = frmMain.State.Stats(item.Index)
+                item.SubItems(1).Text = stat.ToString()
+            End If
         Next
+        If frmMain.State.AutoSave Then
+            Dim timestamp = My.Computer.FileSystem.GetFileInfo(frmMain.FileAutoSave).LastWriteTime()
+            lblAutoSave.Text = "Last Saved " & Math.Round(Now.Subtract(timestamp).TotalSeconds) & " seconds ago."
+        Else
+            lblAutoSave.Text = "Disabled (enable in File menu)"
+        End If
 
         ' Upgrade buttons and description label
         If listUpgrades.SelectedItems.Count = 0 Then
@@ -297,9 +307,15 @@ Public Class frmUpgrades
         Return Convert.ToInt32(lcReturnVal)
     End Function
 
-    Public Shared Function FormatMoney(money As Int32) As String
+    Public Shared Function FormatMoney(money As UInt64) As String
         Dim fmoney As String
-        If money >= 1_000_000_000 Then
+        If money >= 1_000_000_000_000_000_000 Then
+            fmoney = (money / 1_000_000_000_000_000_000).ToString("N1") & "Qui"
+        ElseIf money >= 1_000_000_000_000_000 Then
+            fmoney = (money / 1_000_000_000_000_000).ToString("N1") & "Qua"
+        ElseIf money >= 1_000_000_000_000 Then
+            fmoney = (money / 1_000_000_000_000).ToString("N1") & "Tri"
+        ElseIf money >= 1_000_000_000 Then
             fmoney = (money / 1_000_000_000).ToString("N1") & "Bi"
         ElseIf money >= 1_000_000 Then
             fmoney = (money / 1_000_000).ToString("N1") & "Mi"
@@ -313,5 +329,9 @@ Public Class frmUpgrades
         e.Cancel = True
         frmMain.btnHSUpgrades.Text = ">>"
         Hide()
+    End Sub
+
+    Private Sub linkAutoSave_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles linkAutoSave.LinkClicked
+        System.Diagnostics.Process.Start(frmMain.FileAutoSave.Substring(0, frmMain.FileAutoSave.Length() - 10))
     End Sub
 End Class

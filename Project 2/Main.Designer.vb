@@ -29,20 +29,20 @@ Partial Class frmMain
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.menuAutoSaveToggle = New System.Windows.Forms.ToolStripMenuItem()
         Me.LoadToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ResetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GitHubToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.lblTitle = New System.Windows.Forms.Label()
         Me.progHP = New System.Windows.Forms.ProgressBar()
         Me.lblLVL = New System.Windows.Forms.Label()
         Me.progXP = New System.Windows.Forms.ProgressBar()
         Me.btnHSUpgrades = New System.Windows.Forms.Button()
         Me.imgCookie = New System.Windows.Forms.PictureBox()
-        Me.menuAutoSaveToggle = New System.Windows.Forms.ToolStripMenuItem()
-        Me.GitHubToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.imgCookie, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -55,13 +55,14 @@ Partial Class frmMain
         'SaveFileDialog1
         '
         Me.SaveFileDialog1.DefaultExt = "sav"
+        Me.SaveFileDialog1.FileName = "cookie.sav"
         Me.SaveFileDialog1.Filter = "Clicker Save File|*.sav"
         Me.SaveFileDialog1.RestoreDirectory = True
         '
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.DefaultExt = "sav"
-        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        Me.OpenFileDialog1.FileName = "cookie.sav"
         Me.OpenFileDialog1.Filter = "Clicker Save File|*.sav"
         '
         'MenuStrip1
@@ -85,6 +86,15 @@ Partial Class frmMain
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
         Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SaveToolStripMenuItem.Text = "Save"
+        '
+        'menuAutoSaveToggle
+        '
+        Me.menuAutoSaveToggle.AutoToolTip = True
+        Me.menuAutoSaveToggle.CheckOnClick = True
+        Me.menuAutoSaveToggle.Name = "menuAutoSaveToggle"
+        Me.menuAutoSaveToggle.Size = New System.Drawing.Size(180, 22)
+        Me.menuAutoSaveToggle.Text = "Enable Autosave"
+        Me.menuAutoSaveToggle.ToolTipText = "Automatically backs up your save data every time you level up"
         '
         'LoadToolStripMenuItem
         '
@@ -121,6 +131,12 @@ Partial Class frmMain
         Me.HelpToolStripMenuItem1.Name = "HelpToolStripMenuItem1"
         Me.HelpToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.HelpToolStripMenuItem1.Text = "How to Play"
+        '
+        'GitHubToolStripMenuItem
+        '
+        Me.GitHubToolStripMenuItem.Name = "GitHubToolStripMenuItem"
+        Me.GitHubToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.GitHubToolStripMenuItem.Text = "GitHub"
         '
         'lblTitle
         '
@@ -185,19 +201,6 @@ Partial Class frmMain
         Me.imgCookie.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.imgCookie.TabIndex = 2
         Me.imgCookie.TabStop = False
-        '
-        'menuAutoSaveToggle
-        '
-        Me.menuAutoSaveToggle.CheckOnClick = True
-        Me.menuAutoSaveToggle.Name = "menuAutoSaveToggle"
-        Me.menuAutoSaveToggle.Size = New System.Drawing.Size(180, 22)
-        Me.menuAutoSaveToggle.Text = "Enable Autosave"
-        '
-        'GitHubToolStripMenuItem
-        '
-        Me.GitHubToolStripMenuItem.Name = "GitHubToolStripMenuItem"
-        Me.GitHubToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.GitHubToolStripMenuItem.Text = "GitHub"
         '
         'frmMain
         '

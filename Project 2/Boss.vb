@@ -26,6 +26,7 @@
             frmMain.State.PlayerCoins -= frmMain.State.PlayerLVL ^ 2
             frmUpgrades.UpdateDisplay()
         Else
+            frmMain.State.PlayerCoins = 0
             frmMain.EndGame()
         End If
         frmUpgrades.SetDesktopLocation(Me.Location.X + Me.Size.Width, Me.Location.Y)
@@ -45,7 +46,7 @@
         progHP.Value = Math.Max((BossHP / BossMaxHP) * 100, 0)
         If BossHP = 0 Then
             Me.CoinDrainTimer.Stop()
-            MessageBox.Show("Boss defeated!" & vbNewLine & "You get a $" & frmUpgrades.FormatMoney(BossMaxHP) & " bonus.")
+            MessageBox.Show("Boss defeated!" & vbNewLine & "You get a " & frmUpgrades.FormatMoney(BossMaxHP) & " bonus.")
             frmMain.State.PlayerCoins += BossMaxHP
             frmMain.State.Stats(frmUpgrades.StatsIndex.cashgen) += BossMaxHP
             frmMain.Show()

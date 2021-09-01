@@ -23,26 +23,26 @@ Partial Class frmUpgrades
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Cursor Upgrades", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Passive Upgrades", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewItem18 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"", "Bigger Cursor", "0", "$20", "+1 DMG"}, 0, System.Drawing.Color.Empty, System.Drawing.Color.Transparent, Nothing)
-        Dim ListViewItem19 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"", "Sharper Teeth", "0", "$180", "+10 DMG"}, 1)
-        Dim ListViewItem20 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"", "Liposuction", "0", "$300", "+25 DMG"}, 2)
-        Dim ListViewItem21 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"", "Unhinged Jaw", "0", "$2500", "+100 DMG"}, 3)
-        Dim ListViewItem22 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"", "Auto Clickers", "0", "$100", "+1 DPS"}, 4)
-        Dim ListViewItem23 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"", "Cookie Bakers", "0", "$500", "+5 DPS"}, 5)
-        Dim ListViewItem24 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"", "Cookie Factory", "0", "$3500", "+50 DPS"}, 6)
-        Dim ListViewItem25 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"", "Cookie Nuke", "0", "$8000", "+100 DPS"}, 7)
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Cursor Upgrades", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Passive Upgrades", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"", "Bigger Cursor", "0", "$20", "+1 DMG"}, 0, System.Drawing.Color.Empty, System.Drawing.Color.Transparent, Nothing)
+        Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"", "Sharper Teeth", "0", "$180", "+10 DMG"}, 1)
+        Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"", "Liposuction", "0", "$300", "+25 DMG"}, 2)
+        Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"", "Unhinged Jaw", "0", "$2500", "+100 DMG"}, 3)
+        Dim ListViewItem5 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"", "Auto Clickers", "0", "$100", "+1 DPS"}, 4)
+        Dim ListViewItem6 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"", "Cookie Bakers", "0", "$500", "+5 DPS"}, 5)
+        Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"", "Cookie Factory", "0", "$3500", "+50 DPS"}, 6)
+        Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"", "Cookie Nuke", "0", "$8000", "+100 DPS"}, 7)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmUpgrades))
-        Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Upgrades Purchased", "0"}, -1)
-        Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Cookie Clicks", "0"}, -1)
-        Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Cash Generated", "$0"}, -1)
-        Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Cash Spent", "$0"}, -1)
-        Dim ListViewItem5 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Defeated Cookies", "0"}, -1)
-        Dim ListViewItem6 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Defeated Boss Cookies", "0"}, -1)
-        Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Cursor Damage (DMG)", "1"}, -1)
-        Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Passive Damage Per Second (DPS)", "0"}, -1)
-        Dim ListViewItem26 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Total Time Played", "00:00:00"}, -1)
+        Dim ListViewItem9 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Upgrades Purchased", "0"}, -1)
+        Dim ListViewItem10 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Cookie Clicks", "0"}, -1)
+        Dim ListViewItem11 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Cash Generated", "$0"}, -1)
+        Dim ListViewItem12 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Cash Spent", "$0"}, -1)
+        Dim ListViewItem13 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Defeated Cookies", "0"}, -1)
+        Dim ListViewItem14 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Defeated Boss Cookies", "0"}, -1)
+        Dim ListViewItem15 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Cursor Damage (DMG)", "1"}, -1)
+        Dim ListViewItem16 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Passive Damage Per Second (DPS)", "0"}, -1)
+        Dim ListViewItem17 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Total Time Played", "00:00:00"}, -1)
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.lblDMG = New System.Windows.Forms.Label()
         Me.lblDPS = New System.Windows.Forms.Label()
@@ -68,10 +68,6 @@ Partial Class frmUpgrades
         Me.btnTakeCoins = New System.Windows.Forms.Button()
         Me.numAddDMG = New System.Windows.Forms.NumericUpDown()
         Me.btnAddDMG = New System.Windows.Forms.Button()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.listStats = New System.Windows.Forms.ListView()
-        Me.ColumnHeader5 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.ColumnHeader6 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.btnLvlUp = New System.Windows.Forms.Button()
         Me.btnLvlDown = New System.Windows.Forms.Button()
@@ -81,16 +77,28 @@ Partial Class frmUpgrades
         Me.btnAddDPS = New System.Windows.Forms.Button()
         Me.numAddCoins = New System.Windows.Forms.NumericUpDown()
         Me.btnAddCoins = New System.Windows.Forms.Button()
+        Me.tabStats = New System.Windows.Forms.TabPage()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.listStats = New System.Windows.Forms.ListView()
+        Me.ColumnHeader5 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader6 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.lblAutoSave = New System.Windows.Forms.Label()
+        Me.linkAutoSave = New System.Windows.Forms.LinkLabel()
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.Panel1.SuspendLayout()
         CType(Me.pbCoin, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControl.SuspendLayout()
         Me.tabUpgrades.SuspendLayout()
         Me.tabCheat.SuspendLayout()
         CType(Me.numAddDMG, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         CType(Me.numAddDPS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.numAddCoins, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tabStats.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
+        Me.GroupBox4.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel1
@@ -158,6 +166,7 @@ Partial Class frmUpgrades
         '
         Me.TabControl.Controls.Add(Me.tabUpgrades)
         Me.TabControl.Controls.Add(Me.tabCheat)
+        Me.TabControl.Controls.Add(Me.tabStats)
         Me.TabControl.Location = New System.Drawing.Point(0, 44)
         Me.TabControl.Name = "TabControl"
         Me.TabControl.SelectedIndex = 0
@@ -235,54 +244,54 @@ Partial Class frmUpgrades
         '
         Me.listUpgrades.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader0, Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3, Me.ColumnHeader4})
         Me.listUpgrades.FullRowSelect = True
-        ListViewGroup3.Header = "Cursor Upgrades"
-        ListViewGroup3.Name = "ListViewGroupActive"
-        ListViewGroup4.Header = "Passive Upgrades"
-        ListViewGroup4.Name = "ListViewGroupPassive"
-        Me.listUpgrades.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup1.Header = "Cursor Upgrades"
+        ListViewGroup1.Name = "ListViewGroupActive"
+        ListViewGroup2.Header = "Passive Upgrades"
+        ListViewGroup2.Name = "ListViewGroupPassive"
+        Me.listUpgrades.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.listUpgrades.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.listUpgrades.HideSelection = False
-        ListViewItem18.Group = ListViewGroup3
-        ListViewItem18.StateImageIndex = 0
-        ListViewItem18.Tag = "bigcursor"
-        ListViewItem18.ToolTipText = "Increases the size of the cursor, making each click more effective."
-        ListViewItem19.Checked = True
-        ListViewItem19.Group = ListViewGroup3
-        ListViewItem19.StateImageIndex = 1
-        ListViewItem19.Tag = "sharpteeth"
-        ListViewItem19.ToolTipText = "Bite through cookies like they're nothing."
-        ListViewItem20.Checked = True
-        ListViewItem20.Group = ListViewGroup3
-        ListViewItem20.StateImageIndex = 2
-        ListViewItem20.Tag = "lipo"
-        ListViewItem20.ToolTipText = "Eat cookies faster without the guilt."
-        ListViewItem21.Checked = True
-        ListViewItem21.Group = ListViewGroup3
-        ListViewItem21.StateImageIndex = 3
-        ListViewItem21.Tag = "unhinged"
-        ListViewItem21.ToolTipText = "Fit more of the cookie in your mouth at once."
-        ListViewItem22.Checked = True
-        ListViewItem22.Group = ListViewGroup4
-        ListViewItem22.StateImageIndex = 4
-        ListViewItem22.Tag = "autoclick"
-        ListViewItem22.ToolTipText = "Get more cursors that click for you."
-        ListViewItem23.Checked = True
-        ListViewItem23.Group = ListViewGroup4
-        ListViewItem23.StateImageIndex = 5
-        ListViewItem23.Tag = "bakery"
-        ListViewItem23.ToolTipText = "Hire bakers to make and then burn cookies."
-        ListViewItem24.Checked = True
-        ListViewItem24.Group = ListViewGroup4
-        ListViewItem24.StateImageIndex = 6
-        ListViewItem24.Tag = "factory"
-        ListViewItem24.ToolTipText = "Get robots to bake and then burn the cookies, too."
-        ListViewItem25.Checked = True
-        ListViewItem25.Group = ListViewGroup4
-        ListViewItem25.StateImageIndex = 7
-        ListViewItem25.Tag = "nuke"
-        ListViewItem25.ToolTipText = "It's like Hiroshima, but with cookies. Radiation poisoning passively kills cookie" &
+        ListViewItem1.Group = ListViewGroup1
+        ListViewItem1.StateImageIndex = 0
+        ListViewItem1.Tag = "bigcursor"
+        ListViewItem1.ToolTipText = "Increases the size of the cursor, making each click more effective."
+        ListViewItem2.Checked = True
+        ListViewItem2.Group = ListViewGroup1
+        ListViewItem2.StateImageIndex = 1
+        ListViewItem2.Tag = "sharpteeth"
+        ListViewItem2.ToolTipText = "Bite through cookies like they're nothing."
+        ListViewItem3.Checked = True
+        ListViewItem3.Group = ListViewGroup1
+        ListViewItem3.StateImageIndex = 2
+        ListViewItem3.Tag = "lipo"
+        ListViewItem3.ToolTipText = "Eat cookies faster without the guilt."
+        ListViewItem4.Checked = True
+        ListViewItem4.Group = ListViewGroup1
+        ListViewItem4.StateImageIndex = 3
+        ListViewItem4.Tag = "unhinged"
+        ListViewItem4.ToolTipText = "Fit more of the cookie in your mouth at once."
+        ListViewItem5.Checked = True
+        ListViewItem5.Group = ListViewGroup2
+        ListViewItem5.StateImageIndex = 4
+        ListViewItem5.Tag = "autoclick"
+        ListViewItem5.ToolTipText = "Get more cursors that click for you."
+        ListViewItem6.Checked = True
+        ListViewItem6.Group = ListViewGroup2
+        ListViewItem6.StateImageIndex = 5
+        ListViewItem6.Tag = "bakery"
+        ListViewItem6.ToolTipText = "Hire bakers to make and then burn cookies."
+        ListViewItem7.Checked = True
+        ListViewItem7.Group = ListViewGroup2
+        ListViewItem7.StateImageIndex = 6
+        ListViewItem7.Tag = "factory"
+        ListViewItem7.ToolTipText = "Get robots to bake and then burn the cookies, too."
+        ListViewItem8.Checked = True
+        ListViewItem8.Group = ListViewGroup2
+        ListViewItem8.StateImageIndex = 7
+        ListViewItem8.Tag = "nuke"
+        ListViewItem8.ToolTipText = "It's like Hiroshima, but with cookies. Radiation poisoning passively kills cookie" &
     "s."
-        Me.listUpgrades.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem18, ListViewItem19, ListViewItem20, ListViewItem21, ListViewItem22, ListViewItem23, ListViewItem24, ListViewItem25})
+        Me.listUpgrades.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8})
         Me.listUpgrades.LargeImageList = Me.ImageListUpgrades
         Me.listUpgrades.Location = New System.Drawing.Point(0, 0)
         Me.listUpgrades.MultiSelect = False
@@ -313,7 +322,6 @@ Partial Class frmUpgrades
         'ColumnHeader3
         '
         Me.ColumnHeader3.Text = "Cost"
-        Me.ColumnHeader3.Width = 52
         '
         'ColumnHeader4
         '
@@ -335,17 +343,8 @@ Partial Class frmUpgrades
         '
         'tabCheat
         '
-        Me.tabCheat.Controls.Add(Me.btnTakeDMG)
-        Me.tabCheat.Controls.Add(Me.btnTakeDPS)
-        Me.tabCheat.Controls.Add(Me.btnTakeCoins)
-        Me.tabCheat.Controls.Add(Me.numAddDMG)
-        Me.tabCheat.Controls.Add(Me.btnAddDMG)
-        Me.tabCheat.Controls.Add(Me.GroupBox2)
+        Me.tabCheat.Controls.Add(Me.GroupBox3)
         Me.tabCheat.Controls.Add(Me.GroupBox1)
-        Me.tabCheat.Controls.Add(Me.numAddDPS)
-        Me.tabCheat.Controls.Add(Me.btnAddDPS)
-        Me.tabCheat.Controls.Add(Me.numAddCoins)
-        Me.tabCheat.Controls.Add(Me.btnAddCoins)
         Me.tabCheat.Location = New System.Drawing.Point(4, 22)
         Me.tabCheat.Name = "tabCheat"
         Me.tabCheat.Padding = New System.Windows.Forms.Padding(3)
@@ -356,7 +355,7 @@ Partial Class frmUpgrades
         '
         'btnTakeDMG
         '
-        Me.btnTakeDMG.Location = New System.Drawing.Point(168, 61)
+        Me.btnTakeDMG.Location = New System.Drawing.Point(169, 75)
         Me.btnTakeDMG.Name = "btnTakeDMG"
         Me.btnTakeDMG.Size = New System.Drawing.Size(75, 23)
         Me.btnTakeDMG.TabIndex = 11
@@ -365,7 +364,7 @@ Partial Class frmUpgrades
         '
         'btnTakeDPS
         '
-        Me.btnTakeDPS.Location = New System.Drawing.Point(168, 32)
+        Me.btnTakeDPS.Location = New System.Drawing.Point(169, 46)
         Me.btnTakeDPS.Name = "btnTakeDPS"
         Me.btnTakeDPS.Size = New System.Drawing.Size(75, 23)
         Me.btnTakeDPS.TabIndex = 10
@@ -374,7 +373,7 @@ Partial Class frmUpgrades
         '
         'btnTakeCoins
         '
-        Me.btnTakeCoins.Location = New System.Drawing.Point(168, 3)
+        Me.btnTakeCoins.Location = New System.Drawing.Point(169, 17)
         Me.btnTakeCoins.Name = "btnTakeCoins"
         Me.btnTakeCoins.Size = New System.Drawing.Size(75, 23)
         Me.btnTakeCoins.TabIndex = 9
@@ -383,7 +382,7 @@ Partial Class frmUpgrades
         '
         'numAddDMG
         '
-        Me.numAddDMG.Location = New System.Drawing.Point(6, 62)
+        Me.numAddDMG.Location = New System.Drawing.Point(7, 76)
         Me.numAddDMG.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.numAddDMG.Name = "numAddDMG"
         Me.numAddDMG.Size = New System.Drawing.Size(75, 20)
@@ -391,57 +390,12 @@ Partial Class frmUpgrades
         '
         'btnAddDMG
         '
-        Me.btnAddDMG.Location = New System.Drawing.Point(87, 61)
+        Me.btnAddDMG.Location = New System.Drawing.Point(88, 75)
         Me.btnAddDMG.Name = "btnAddDMG"
         Me.btnAddDMG.Size = New System.Drawing.Size(75, 23)
         Me.btnAddDMG.TabIndex = 7
         Me.btnAddDMG.Text = "Add DMG"
         Me.btnAddDMG.UseVisualStyleBackColor = True
-        '
-        'GroupBox2
-        '
-        Me.GroupBox2.Controls.Add(Me.listStats)
-        Me.GroupBox2.Location = New System.Drawing.Point(3, 90)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(302, 141)
-        Me.GroupBox2.TabIndex = 6
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "Stats"
-        '
-        'listStats
-        '
-        Me.listStats.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader5, Me.ColumnHeader6})
-        Me.listStats.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.listStats.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        Me.listStats.HideSelection = False
-        ListViewItem1.Tag = "upgradepurchases"
-        ListViewItem2.Tag = "cookieclicks"
-        ListViewItem3.Tag = "cashgen"
-        ListViewItem4.Tag = "cashspent"
-        ListViewItem5.Tag = "cookiekills"
-        ListViewItem6.Tag = "bosskills"
-        ListViewItem7.Tag = "dmg"
-        ListViewItem8.Tag = "dps"
-        ListViewItem26.Tag = "timeplayed"
-        Me.listStats.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem26})
-        Me.listStats.Location = New System.Drawing.Point(3, 16)
-        Me.listStats.MultiSelect = False
-        Me.listStats.Name = "listStats"
-        Me.listStats.Size = New System.Drawing.Size(296, 122)
-        Me.listStats.TabIndex = 0
-        Me.listStats.UseCompatibleStateImageBehavior = False
-        Me.listStats.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader5
-        '
-        Me.ColumnHeader5.Text = "Statistic"
-        Me.ColumnHeader5.Width = 200
-        '
-        'ColumnHeader6
-        '
-        Me.ColumnHeader6.Text = "Value"
-        Me.ColumnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.ColumnHeader6.Width = 75
         '
         'GroupBox1
         '
@@ -449,7 +403,7 @@ Partial Class frmUpgrades
         Me.GroupBox1.Controls.Add(Me.btnLvlDown)
         Me.GroupBox1.Controls.Add(Me.btnHealCookie)
         Me.GroupBox1.Controls.Add(Me.btnInstakill)
-        Me.GroupBox1.Location = New System.Drawing.Point(3, 237)
+        Me.GroupBox1.Location = New System.Drawing.Point(3, 126)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(302, 73)
         Me.GroupBox1.TabIndex = 5
@@ -494,7 +448,7 @@ Partial Class frmUpgrades
         '
         'numAddDPS
         '
-        Me.numAddDPS.Location = New System.Drawing.Point(6, 33)
+        Me.numAddDPS.Location = New System.Drawing.Point(7, 47)
         Me.numAddDPS.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.numAddDPS.Name = "numAddDPS"
         Me.numAddDPS.Size = New System.Drawing.Size(75, 20)
@@ -502,7 +456,7 @@ Partial Class frmUpgrades
         '
         'btnAddDPS
         '
-        Me.btnAddDPS.Location = New System.Drawing.Point(87, 32)
+        Me.btnAddDPS.Location = New System.Drawing.Point(88, 46)
         Me.btnAddDPS.Name = "btnAddDPS"
         Me.btnAddDPS.Size = New System.Drawing.Size(75, 23)
         Me.btnAddDPS.TabIndex = 2
@@ -511,7 +465,7 @@ Partial Class frmUpgrades
         '
         'numAddCoins
         '
-        Me.numAddCoins.Location = New System.Drawing.Point(6, 5)
+        Me.numAddCoins.Location = New System.Drawing.Point(7, 19)
         Me.numAddCoins.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.numAddCoins.Name = "numAddCoins"
         Me.numAddCoins.Size = New System.Drawing.Size(75, 20)
@@ -519,12 +473,118 @@ Partial Class frmUpgrades
         '
         'btnAddCoins
         '
-        Me.btnAddCoins.Location = New System.Drawing.Point(87, 3)
+        Me.btnAddCoins.Location = New System.Drawing.Point(88, 17)
         Me.btnAddCoins.Name = "btnAddCoins"
         Me.btnAddCoins.Size = New System.Drawing.Size(75, 23)
         Me.btnAddCoins.TabIndex = 0
         Me.btnAddCoins.Text = "Add Coins"
         Me.btnAddCoins.UseVisualStyleBackColor = True
+        '
+        'tabStats
+        '
+        Me.tabStats.Controls.Add(Me.GroupBox4)
+        Me.tabStats.Controls.Add(Me.GroupBox2)
+        Me.tabStats.Location = New System.Drawing.Point(4, 22)
+        Me.tabStats.Name = "tabStats"
+        Me.tabStats.Padding = New System.Windows.Forms.Padding(3)
+        Me.tabStats.Size = New System.Drawing.Size(308, 313)
+        Me.tabStats.TabIndex = 3
+        Me.tabStats.Text = "Stats"
+        Me.tabStats.UseVisualStyleBackColor = True
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.listStats)
+        Me.GroupBox2.Location = New System.Drawing.Point(3, 6)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(302, 260)
+        Me.GroupBox2.TabIndex = 7
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Stats"
+        '
+        'listStats
+        '
+        Me.listStats.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader5, Me.ColumnHeader6})
+        Me.listStats.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.listStats.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        Me.listStats.HideSelection = False
+        ListViewItem9.Tag = "upgradepurchases"
+        ListViewItem10.Tag = "cookieclicks"
+        ListViewItem11.Tag = "cashgen"
+        ListViewItem12.Tag = "cashspent"
+        ListViewItem13.Tag = "cookiekills"
+        ListViewItem14.Tag = "bosskills"
+        ListViewItem15.Tag = "dmg"
+        ListViewItem16.Tag = "dps"
+        ListViewItem17.Tag = "timeplayed"
+        Me.listStats.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem9, ListViewItem10, ListViewItem11, ListViewItem12, ListViewItem13, ListViewItem14, ListViewItem15, ListViewItem16, ListViewItem17})
+        Me.listStats.Location = New System.Drawing.Point(3, 16)
+        Me.listStats.MultiSelect = False
+        Me.listStats.Name = "listStats"
+        Me.listStats.Size = New System.Drawing.Size(296, 241)
+        Me.listStats.TabIndex = 0
+        Me.listStats.UseCompatibleStateImageBehavior = False
+        Me.listStats.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader5
+        '
+        Me.ColumnHeader5.Text = "Statistic"
+        Me.ColumnHeader5.Width = 200
+        '
+        'ColumnHeader6
+        '
+        Me.ColumnHeader6.Text = "Value"
+        Me.ColumnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.ColumnHeader6.Width = 75
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.numAddCoins)
+        Me.GroupBox3.Controls.Add(Me.btnTakeDMG)
+        Me.GroupBox3.Controls.Add(Me.btnAddCoins)
+        Me.GroupBox3.Controls.Add(Me.btnTakeDPS)
+        Me.GroupBox3.Controls.Add(Me.btnAddDPS)
+        Me.GroupBox3.Controls.Add(Me.btnTakeCoins)
+        Me.GroupBox3.Controls.Add(Me.numAddDPS)
+        Me.GroupBox3.Controls.Add(Me.numAddDMG)
+        Me.GroupBox3.Controls.Add(Me.btnAddDMG)
+        Me.GroupBox3.Location = New System.Drawing.Point(3, 6)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(302, 114)
+        Me.GroupBox3.TabIndex = 12
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Variable Editors"
+        '
+        'lblAutoSave
+        '
+        Me.lblAutoSave.AutoSize = True
+        Me.lblAutoSave.Location = New System.Drawing.Point(6, 16)
+        Me.lblAutoSave.Name = "lblAutoSave"
+        Me.lblAutoSave.Size = New System.Drawing.Size(148, 13)
+        Me.lblAutoSave.TabIndex = 8
+        Me.lblAutoSave.Text = "Disabled (enable in File menu)"
+        '
+        'linkAutoSave
+        '
+        Me.linkAutoSave.AutoSize = True
+        Me.linkAutoSave.Location = New System.Drawing.Point(230, 16)
+        Me.linkAutoSave.Name = "linkAutoSave"
+        Me.linkAutoSave.Size = New System.Drawing.Size(66, 13)
+        Me.linkAutoSave.TabIndex = 9
+        Me.linkAutoSave.TabStop = True
+        Me.linkAutoSave.Text = "Show Folder"
+        Me.linkAutoSave.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'GroupBox4
+        '
+        Me.GroupBox4.Controls.Add(Me.lblAutoSave)
+        Me.GroupBox4.Controls.Add(Me.linkAutoSave)
+        Me.GroupBox4.Location = New System.Drawing.Point(3, 272)
+        Me.GroupBox4.Name = "GroupBox4"
+        Me.GroupBox4.Size = New System.Drawing.Size(302, 38)
+        Me.GroupBox4.TabIndex = 10
+        Me.GroupBox4.TabStop = False
+        Me.GroupBox4.Text = "Autosave"
         '
         'frmUpgrades
         '
@@ -545,10 +605,14 @@ Partial Class frmUpgrades
         Me.tabUpgrades.ResumeLayout(False)
         Me.tabCheat.ResumeLayout(False)
         CType(Me.numAddDMG, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         CType(Me.numAddDPS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.numAddCoins, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tabStats.ResumeLayout(False)
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox4.ResumeLayout(False)
+        Me.GroupBox4.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -575,7 +639,6 @@ Partial Class frmUpgrades
     Friend WithEvents btnTakeCoins As Button
     Friend WithEvents numAddDMG As NumericUpDown
     Friend WithEvents btnAddDMG As Button
-    Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents btnLvlUp As Button
     Friend WithEvents btnLvlDown As Button
@@ -587,8 +650,14 @@ Partial Class frmUpgrades
     Friend WithEvents btnAddCoins As Button
     Friend WithEvents btnSacrifice As Button
     Friend WithEvents ImageListUpgrades As ImageList
+    Friend WithEvents btnBegin As Button
+    Friend WithEvents GroupBox3 As GroupBox
+    Friend WithEvents tabStats As TabPage
+    Friend WithEvents lblAutoSave As Label
+    Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents listStats As ListView
     Friend WithEvents ColumnHeader5 As ColumnHeader
     Friend WithEvents ColumnHeader6 As ColumnHeader
-    Friend WithEvents btnBegin As Button
+    Friend WithEvents linkAutoSave As LinkLabel
+    Friend WithEvents GroupBox4 As GroupBox
 End Class

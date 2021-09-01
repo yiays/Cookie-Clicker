@@ -14,18 +14,31 @@
         Dim Stats As List(Of UInt32)
 
         Dim BossPrompted As Boolean
+        Dim AutoSave As Boolean
     End Structure
 
-    Public ReadOnly StateVer As Byte = 3
+    Public ReadOnly StateVer As Byte = 4
     Public State As GameState
+    Private locappdata As String = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
+    Public FileAutoSave As String = locappdata & "\Cookie.Clicker\cookie.sav"
 
     Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Reset()
 
+        If locappdata.Length() Then
+            My.Computer.FileSystem.CreateDirectory(locappdata & "\Cookie.Clicker")
+            If My.Computer.FileSystem.FileExists(FileAutoSave) Then
+                LoadGame(FileAutoSave)
+                UpdateAll()
+            End If
+        End If
+
         frmUpgrades.Show()
         frmUpgrades.SetDesktopLocation(Me.Location.X + Me.Size.Width, Me.Location.Y)
 
-        HelpToolStripMenuItem1_Click(Nothing, Nothing)
+        If State.PlayerLVL = 1 Then
+            HelpToolStripMenuItem1_Click(Nothing, Nothing)
+        End If
 
         DPSTimer.Start()
     End Sub
@@ -42,7 +55,8 @@
             .PlayerCoins = 0,
             .Upgrades = New List(Of UInt16),
             .Stats = New List(Of UInt32),
-            .BossPrompted = False
+            .BossPrompted = False,
+            .AutoSave = True
         }
 
         For Each upgrade In frmUpgrades.Upgrades
@@ -54,6 +68,34 @@
         Next
 
         UpdateAll()
+    End Sub
+
+    Private Sub SaveGame(Path As String)
+        Dim lcMyBinaryFormatter As New System.Runtime.Serialization.Formatters.Binary.BinaryFormatter()
+        Dim lcMyContainer As New System.IO.MemoryStream()
+        lcMyBinaryFormatter.Serialize(lcMyContainer, State)
+        My.Computer.FileSystem.WriteAllBytes(Path, lcMyContainer.GetBuffer(), False)
+    End Sub
+
+    Private Sub LoadGame(Path As String)
+        Dim lcMyBinaryFormatter As New System.Runtime.Serialization.Formatters.Binary.BinaryFormatter()
+        Dim lcMyContainer As New System.IO.MemoryStream()
+        Dim lcBytes As Byte() = My.Computer.FileSystem.ReadAllBytes(Path)
+        Dim NewState As GameState = lcMyBinaryFormatter.Deserialize(New System.IO.MemoryStream(lcBytes))
+
+        If Not NewState.Version = StateVer Then
+            Dim result As DialogResult = MessageBox.Show(
+                "The save data just loaded appears to be from an older version of the game, this may have unintended consequences. Continue?",
+                "Warning",
+                MessageBoxButtons.YesNo
+            )
+            If result = DialogResult.Yes Then
+                NewState.Version = StateVer
+                State = NewState
+            End If
+        Else
+            State = NewState
+        End If
     End Sub
 
     Private Sub DPSTimer_Tick(sender As Object, e As EventArgs) Handles DPSTimer.Tick
@@ -89,6 +131,7 @@
         UpdateHP()
         UpdateXP()
         UpdateLVL()
+        menuAutoSaveToggle.Checked = State.AutoSave
         frmUpgrades.UpdateDisplay()
     End Sub
 
@@ -152,6 +195,9 @@
 
     Private Sub UpdateLVL()
         lblLVL.Text = "Level " & State.PlayerLVL
+        If locappdata.Length() And State.AutoSave And State.PlayerLVL > 1 And (State.PlayerLVL Mod 5) > 0 Then
+            SaveGame(FileAutoSave)
+        End If
     End Sub
 
     Private Sub frmMain_FormClosing(sender As Object, e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
@@ -162,7 +208,25 @@
     Public Sub EndGame()
         frmBoss.Dispose()
         frmUpgrades.UpdateDisplay()
+
+        Dim timestamp = My.Computer.FileSystem.GetFileInfo(FileAutoSave).LastWriteTime()
+        If State.PlayerCoins > 0 And Now.Subtract(timestamp).TotalSeconds > 10 Then
+            Dim result As DialogResult = MessageBox.Show(
+                "Do you want to save your game before quitting?",
+                "Warning",
+                MessageBoxButtons.YesNo
+            )
+            If result = DialogResult.Yes Then
+                If State.AutoSave Then
+                    SaveGame(FileAutoSave)
+                Else
+                    SaveToolStripMenuItem_Click(Nothing, Nothing)
+                End If
+            End If
+        End If
+
         frmEndGame.Show()
+        frmEndGame.SetDesktopLocation(Me.Location.X, Me.Location.Y)
         frmEndGame.Init()
         frmUpgrades.Dispose()
         Hide()
@@ -170,17 +234,12 @@
     End Sub
 
     Private Sub SaveFileSelected(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles SaveFileDialog1.FileOk
-        Dim lcMyBinaryFormatter As New System.Runtime.Serialization.Formatters.Binary.BinaryFormatter()
-        Dim lcMyContainer As New System.IO.MemoryStream()
-        lcMyBinaryFormatter.Serialize(lcMyContainer, State)
-        My.Computer.FileSystem.WriteAllBytes(SaveFileDialog1.FileName, lcMyContainer.GetBuffer(), False)
+        SaveGame(SaveFileDialog1.FileName)
     End Sub
 
     Private Sub LoadFileSelected(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles OpenFileDialog1.FileOk
-        Dim lcMyBinaryFormatter As New System.Runtime.Serialization.Formatters.Binary.BinaryFormatter()
-        Dim lcMyContainer As New System.IO.MemoryStream()
-        Dim lcBytes As Byte() = My.Computer.FileSystem.ReadAllBytes(OpenFileDialog1.FileName)
-        State = DirectCast(lcMyBinaryFormatter.Deserialize(New System.IO.MemoryStream(lcBytes)), GameState)
+        LoadGame(OpenFileDialog1.FileName)
+        State.AutoSave = False
         UpdateAll()
     End Sub
 
@@ -197,7 +256,7 @@
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
-        Application.Exit()
+        EndGame()
     End Sub
 
     Private Sub btnHSUpgrades_Click(sender As Object, e As EventArgs) Handles btnHSUpgrades.Click
@@ -221,5 +280,10 @@
 
     Private Sub GitHubToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GitHubToolStripMenuItem.Click
         System.Diagnostics.Process.Start("https://github.com/yiays/Cookie-Clicker/")
+    End Sub
+
+    Private Sub menuAutoSaveToggle_Click(sender As Object, e As EventArgs) Handles menuAutoSaveToggle.Click
+        State.AutoSave = menuAutoSaveToggle.Checked
+        frmUpgrades.UpdateDisplay()
     End Sub
 End Class
